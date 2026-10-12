@@ -1,4 +1,4 @@
-
+from typing import List, Union, Tuple
 try:
     from src.point import Point
 except ImportError:
