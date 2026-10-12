@@ -1,0 +1,16 @@
+# Requirements for Triangle and Points Geometry Project
+# Python >= 3.8
+
+# Testing and development framework
+pytest>=8.0.0
+pluggy>=1.5.0
+iniconfig>=2.0.0
+
+# Built-in Standard Library Modules utilized in this project:
+# - math        (Euclidean distance and square root calculations)
+# - json        (Reading JSON datasets from data/ directory)
+# - csv         (Reading CSV datasets from data/ directory)
+# - pathlib     (Cross-platform file and directory path management)
+# - typing      (Type hints: Union, Tuple, List, Dict, Iterator)
+# - unittest    (Standard test execution)
+# - sys         (Python path and system module)

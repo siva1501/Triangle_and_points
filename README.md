@@ -1,181 +1,123 @@
 # Triangle and Points Project
 
-This project implements a 2D geometry module in Python featuring a `Point` class and a `Triangle` class.
+A modular, clean Python geometry project featuring a `Point` class and a `Triangle` class with dataset loading, perimeter calculation, and operator overloading.
+
+---
 
 ## Project Structure
 
-```text
+```
 anti/
-├── point.py           # Point class for coordinates and distance calculations
-├── triangle.py        # Triangle class for points, perimeter, and equality
-├── main.py            # Demonstration of project functionality
-├── test_triangle.py   # Unit tests for the project
-└── README.md          # Project documentation
+├── data/                      # All dataset and input files
+│   ├── README.md              # Data folder documentation
+│   ├── triangles.json         # JSON dataset of triangle coordinates (t1, t2, t3)
+│   └── triangles.csv          # CSV dataset of triangle coordinates
+├── src/                       # All program source code files
+│   ├── __init__.py            # Package export definitions
+│   ├── point.py               # Point class (Euclidean distance, coordinates, equality)
+│   ├── triangle.py            # Triangle class (add_point, perimeter, is_equal, __eq__)
+│   ├── data_loader.py         # Utility to load triangles from JSON and CSV files
+│   └── main.py                # Main script executing all assignment operations
+├── tests/                     # Unit and integration test suite
+│   ├── __init__.py
+│   └── test_triangle.py       # 13 tests for Point, Triangle, and DataLoader
+├── venv/                      # Python virtual environment
+├── main.py                    # Root entry point launcher
+├── requirements.txt           # Project dependencies and modules list
+├── .gitignore                 # Git ignore rules for venv and caches
+└── README.md                  # Project documentation
 ```
 
-## Requirements and Implementation
+---
 
-### 1. Point Class
+## Requirements & Modules
 
-The `Point` class is implemented in `point.py`.
+All dependencies are recorded in [`requirements.txt`](file:///home/siva/WORK/anti/requirements.txt):
 
-Features:
-- Stores `x` and `y` coordinates.
-- Calculates the Euclidean distance between two points.
-- Supports coordinate unpacking, such as `(x, y) = point`.
-- Supports indexing, such as `point[0]` and `point[1]`.
-- Supports equality comparisons with coordinate tuples, such as `point == (x, y)`.
+- **External Packages**:
+  - `pytest>=8.0.0`: Testing framework
+  - `pluggy>=1.5.0`: Plugin manager for pytest
+  - `iniconfig>=2.0.0`: Config parser for pytest
+- **Standard Library Modules Used**:
+  - `math`: For `math.hypot()` and `math.sqrt()` Euclidean distance calculations
+  - `json`: Parsing dataset files in `data/triangles.json`
+  - `csv`: Reading tabular coordinate records in `data/triangles.csv`
+  - `pathlib`: Clean, cross-platform path handling
+  - `typing`: Type annotations (`Union`, `Tuple`, `List`, `Dict`, `Iterator`)
+  - `unittest`: Testing suite runner
+  - `sys`: Module search path resolution
 
-The Euclidean distance between two points is calculated using:
+---
 
-\[
-d = \sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}
-\]
+## Setup & Execution
 
-### 2. Triangle Class
+### 1. Virtual Environment
 
-The `Triangle` class is implemented in `triangle.py`.
-
-Features:
-- `__init__(self)`: Initializes an empty list of points.
-- `add_point(*args)`: Adds points to the triangle.
-- `perimeter(self)`: Calculates the perimeter using the distances between the three vertices.
-- `is_equal(self, other)`: Checks whether two triangles contain the same points.
-- `__eq__(self, other)`: Implements equality comparison using the `==` operator.
-
-The perimeter is calculated as:
-
-\[
-P = d(p_1,p_2) + d(p_2,p_3) + d(p_3,p_1)
-\]
-
-## Quickstart
-
-### 1. Activate the Virtual Environment
-
-Activate the existing virtual environment:
-
+Activate the included virtual environment:
 ```bash
 source venv/bin/activate
 ```
 
-To deactivate it when finished:
-
+To install/verify dependencies from `requirements.txt`:
 ```bash
-deactivate
+pip install -r requirements.txt
 ```
 
-### 2. Run the Main Program
+### 2. Run the Program
 
-With the virtual environment activated:
+You can run the program either from the root or directly from `src/`:
 
 ```bash
+# Option A: From root launcher
 python main.py
+
+# Option B: Directly from src folder
+python src/main.py
+
+# Option C: As a Python module
+python -m src.main
 ```
 
-Alternatively, run the program directly:
+### 3. Run the Tests
+
+Execute tests using `pytest` or `unittest`:
 
 ```bash
-./venv/bin/python main.py
+# Using pytest
+pytest
+
+# Using standard library unittest
+python -m unittest discover tests
 ```
 
-### 3. Run Unit Tests
+---
 
-Run the test suite using:
+## Overview of Operations
 
-```bash
-python -m unittest test_triangle.py
-```
+1. **Triangle `t1`**:
+   - Points: `(0, 0)`, `(0, 3)`, `(4, 0)`
+   - Perimeter: **`12.0`** ($3 + 5 + 4$)
 
-Alternatively:
+2. **Triangle `t2`**:
+   - Points: `(1, 2)`, `(2, 1)`, `(1, 5)`
+   - Perimeter: **`8.5373`** ($\sqrt{2} + \sqrt{17} + 3.0$)
 
-```bash
-./venv/bin/python -m unittest test_triangle.py
-```
+3. **Equality check (`t1` vs `t2`)**:
+   - `t1.is_equal(t2)` $\rightarrow$ **`False`**
 
-## Example Operations
+4. **Triangle `t3`**:
+   - Points: `(1, 2)`, `(2, 1)`, `(1, 5)` (identical coordinates to `t2`)
 
-### 1. Create Triangle `t1`
+5. **Operations before `__eq__` operator overloading**:
+   - `t1 == t3` $\rightarrow$ **`False`** *(Python default object identity)*
+   - `t1.is_equal(t3)` $\rightarrow$ **`False`**
+   - `t3.is_equal(t1)` $\rightarrow$ **`False`**
+   - `t2 == t3` $\rightarrow$ **`False`** *(Different memory objects)*
+   - `t2.is_equal(t3)` $\rightarrow$ **`True`** *(Same point list)*
 
-Vertices:
+6. **Renaming `is_equal` to `__eq__`**:
+   - `t1 == t3` $\rightarrow$ **`False`** *(Calls `__eq__`, points differ)*
+   - `t2 == t3` $\rightarrow$ **`True`** *(Calls `__eq__`, points match)*
 
-- `(0, 0)`
-- `(0, 3)`
-- `(4, 0)`
-
-Side lengths: `3`, `4`, and `5`.
-
-Expected perimeter:
-
-```text
-12.0
-```
-
-### 2. Create Triangle `t2`
-
-Vertices:
-
-- `(1, 2)`
-- `(2, 1)`
-- `(1, 5)`
-
-Side lengths:
-
-- `sqrt(2)`
-- `sqrt(17)`
-- `3`
-
-Expected perimeter:
-
-```text
-8.5373
-```
-
-### 3. Compare Triangles
-
-The `is_equal()` method checks whether two triangles have the same points.
-
-Example:
-
-```python
-t2.is_equal(t3)
-```
-
-Expected result when `t2` and `t3` contain the same points in the same order:
-
-```text
-True
-```
-
-### 4. Operator Overloading
-
-Implementing the `__eq__()` method allows triangle objects to be compared using `==`.
-
-Example:
-
-```python
-t2 == t3
-```
-
-Expected result when both triangles contain the same points in the same order:
-
-```text
-True
-```
-
-## Testing
-
-The `test_triangle.py` file contains unit tests for the project's functionality.
-
-Run the tests with:
-
-```bash
-python -m unittest test_triangle.py
-```
-
-## Technologies Used
-
-- Python
-- Object-Oriented Programming (OOP)
-- Unit Testing
-- Git and GitHub
+7. **Loading datasets from `data/`**:
+   - Loads triangles `t1`, `t2`, `t3` directly from [`data/triangles.json`](file:///home/siva/WORK/anti/data/triangles.json) and [`data/triangles.csv`](file:///home/siva/WORK/anti/data/triangles.csv).

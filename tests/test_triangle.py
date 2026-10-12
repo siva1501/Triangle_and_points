@@ -1,7 +1,15 @@
-import unittest
 import math
-from point import Point
-from triangle import Triangle
+from pathlib import Path
+import unittest
+
+from src.data_loader import (
+    load_triangles_from_csv,
+    load_triangles_from_json,
+)
+from src.point import Point
+from src.triangle import Triangle
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 class TestPoint(unittest.TestCase):
@@ -110,6 +118,26 @@ class TestTriangle(unittest.TestCase):
         self.assertFalse(t1 == t3)
         self.assertTrue(t2 == t3)
         self.assertFalse(t1 == "other")
+
+
+class TestDataLoader(unittest.TestCase):
+    def test_load_from_json(self):
+        json_file = BASE_DIR / "data" / "triangles.json"
+        triangles = load_triangles_from_json(json_file)
+        self.assertIn("t1", triangles)
+        self.assertIn("t2", triangles)
+        self.assertIn("t3", triangles)
+        self.assertAlmostEqual(triangles["t1"].perimeter(), 12.0)
+        self.assertEqual(triangles["t2"], triangles["t3"])
+
+    def test_load_from_csv(self):
+        csv_file = BASE_DIR / "data" / "triangles.csv"
+        triangles = load_triangles_from_csv(csv_file)
+        self.assertIn("t1", triangles)
+        self.assertIn("t2", triangles)
+        self.assertIn("t3", triangles)
+        self.assertAlmostEqual(triangles["t1"].perimeter(), 12.0)
+        self.assertEqual(triangles["t2"], triangles["t3"])
 
 
 if __name__ == "__main__":
