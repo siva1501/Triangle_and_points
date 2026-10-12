@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Triangle and Points Project
 
 This project implements a 2D geometry module featuring a `Point` class and a `Triangle` class in Python.
@@ -95,3 +96,6 @@ python main.py
 - Assigning `__eq__ = is_equal` enables Python's `==` operator on `Triangle` objects.
 - `t1 == t3` $\rightarrow$ `False`
 - `t2 == t3` $\rightarrow$ `True`
+=======
+# Triangle_and_points
+>>>>>>> 98f27367e7aa2938754a0bf00286cc4d7431b8b8
