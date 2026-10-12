@@ -1,101 +1,181 @@
-<<<<<<< HEAD
 # Triangle and Points Project
 
-This project implements a 2D geometry module featuring a `Point` class and a `Triangle` class in Python.
-
----
+This project implements a 2D geometry module in Python featuring a `Point` class and a `Triangle` class.
 
 ## Project Structure
 
-```
+```text
 anti/
-├── venv/              # Python virtual environment
-├── point.py           # Point class (Euclidean distance, equality, coordinate access)
-├── triangle.py        # Triangle class (add_point, perimeter, is_equal, __eq__)
-├── main.py            # Step-by-step demonstration matching the requirements
-├── test_triangle.py   # Comprehensive unit test suite (11 tests)
-└── README.md          # Documentation and instructions
+├── point.py           # Point class for coordinates and distance calculations
+├── triangle.py        # Triangle class for points, perimeter, and equality
+├── main.py            # Demonstration of project functionality
+├── test_triangle.py   # Unit tests for the project
+└── README.md          # Project documentation
 ```
 
----
+## Requirements and Implementation
 
-## Requirements & Implementation Overview
+### 1. Point Class
 
-1. **`Point` Class** ([point.py](file:///home/siva/WORK/anti/point.py)):
-   - Stores `x` and `y` coordinates.
-   - Calculates Euclidean distance: `p1.distance_to(p2) = sqrt((x2 - x1)^2 + (y2 - y1)^2)`.
-   - Supports coordinate unpacking `(x, y) = point`, indexing `p[0]`, `p[1]`, and coordinate tuple equality `p == (x, y)`.
+The `Point` class is implemented in `point.py`.
 
-2. **`Triangle` Class** ([triangle.py](file:///home/siva/WORK/anti/triangle.py)):
-   - `__init__(self)`: Initializes with an empty list `self.points = []`.
-   - `add_point(*args)`: Adds a point to the list (supports `(x, y)`, `Point(x, y)`, or tuple `(x, y)`).
-   - `perimeter(self)`: Computes the perimeter $d(p_1, p_2) + d(p_2, p_3) + d(p_3, p_1)$.
-   - `is_equal(self, other)`: Checks whether two triangle objects have the same list of points.
-   - `__eq__(self, other)`: Overloads the `==` comparison operator to check whether two triangles have equal points.
+Features:
+- Stores `x` and `y` coordinates.
+- Calculates the Euclidean distance between two points.
+- Supports coordinate unpacking, such as `(x, y) = point`.
+- Supports indexing, such as `point[0]` and `point[1]`.
+- Supports equality comparisons with coordinate tuples, such as `point == (x, y)`.
 
----
+The Euclidean distance between two points is calculated using:
+
+\[
+d = \sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}
+\]
+
+### 2. Triangle Class
+
+The `Triangle` class is implemented in `triangle.py`.
+
+Features:
+- `__init__(self)`: Initializes an empty list of points.
+- `add_point(*args)`: Adds points to the triangle.
+- `perimeter(self)`: Calculates the perimeter using the distances between the three vertices.
+- `is_equal(self, other)`: Checks whether two triangles contain the same points.
+- `__eq__(self, other)`: Implements equality comparison using the `==` operator.
+
+The perimeter is calculated as:
+
+\[
+P = d(p_1,p_2) + d(p_2,p_3) + d(p_3,p_1)
+\]
 
 ## Quickstart
 
-### 1. Virtual Environment
+### 1. Activate the Virtual Environment
 
-The virtual environment is created in `venv`. To activate it in your terminal:
+Activate the existing virtual environment:
 
 ```bash
 source venv/bin/activate
 ```
 
-To deactivate when finished:
+To deactivate it when finished:
+
 ```bash
 deactivate
 ```
 
-### 2. Run the Main Demonstration
+### 2. Run the Main Program
 
-```bash
-./venv/bin/python main.py
-```
-Or with virtual environment activated:
+With the virtual environment activated:
+
 ```bash
 python main.py
 ```
 
-### 3. Run the Unit Tests
+Alternatively, run the program directly:
+
+```bash
+./venv/bin/python main.py
+```
+
+### 3. Run Unit Tests
+
+Run the test suite using:
+
+```bash
+python -m unittest test_triangle.py
+```
+
+Alternatively:
 
 ```bash
 ./venv/bin/python -m unittest test_triangle.py
 ```
 
----
+## Example Operations
 
-## Walkthrough of Operations
+### 1. Create Triangle `t1`
 
-### Step 1: Triangle `t1`
-- Points: `(0, 0)`, `(0, 3)`, `(4, 0)`
-- Side lengths: $3$, $5$, $4$
-- **Perimeter of `t1`**: **$12.0$**
+Vertices:
 
-### Step 2: Triangle `t2`
-- Points: `(1, 2)`, `(2, 1)`, `(1, 5)`
-- Side lengths: $\sqrt{2} \approx 1.4142$, $\sqrt{17} \approx 4.1231$, $3.0$
-- **Perimeter of `t2`**: **$\approx 8.5373$**
+- `(0, 0)`
+- `(0, 3)`
+- `(4, 0)`
 
-### Step 3: Check equality between `t1` and `t2`
-- `t1.is_equal(t2)` $\rightarrow$ `False` (points do not match)
+Side lengths: `3`, `4`, and `5`.
 
-### Step 4: Triangle `t3`
-- Points: `(1, 2)`, `(2, 1)`, `(1, 5)` (identical points to `t2`)
+Expected perimeter:
 
-### Step 5: Operations with `is_equal`
-- `t1 == t3` $\rightarrow$ `False` (default identity comparison)
-- `t1.is_equal(t3)` $\rightarrow$ `False` (different points)
-- `t3.is_equal(t1)` $\rightarrow$ `False` (different points)
-- `t2.is_equal(t3)` $\rightarrow$ `True` (same points)
+```text
+12.0
+```
 
-### Step 6: Renaming `is_equal` to `__eq__` (Operator Overloading)
-- Assigning `__eq__ = is_equal` enables Python's `==` operator on `Triangle` objects.
-- `t1 == t3` $\rightarrow$ `False`
-- `t2 == t3` $\rightarrow$ `True`
-=======
-# Triangle_and_points
->>>>>>> 98f27367e7aa2938754a0bf00286cc4d7431b8b8
+### 2. Create Triangle `t2`
+
+Vertices:
+
+- `(1, 2)`
+- `(2, 1)`
+- `(1, 5)`
+
+Side lengths:
+
+- `sqrt(2)`
+- `sqrt(17)`
+- `3`
+
+Expected perimeter:
+
+```text
+8.5373
+```
+
+### 3. Compare Triangles
+
+The `is_equal()` method checks whether two triangles have the same points.
+
+Example:
+
+```python
+t2.is_equal(t3)
+```
+
+Expected result when `t2` and `t3` contain the same points in the same order:
+
+```text
+True
+```
+
+### 4. Operator Overloading
+
+Implementing the `__eq__()` method allows triangle objects to be compared using `==`.
+
+Example:
+
+```python
+t2 == t3
+```
+
+Expected result when both triangles contain the same points in the same order:
+
+```text
+True
+```
+
+## Testing
+
+The `test_triangle.py` file contains unit tests for the project's functionality.
+
+Run the tests with:
+
+```bash
+python -m unittest test_triangle.py
+```
+
+## Technologies Used
+
+- Python
+- Object-Oriented Programming (OOP)
+- Unit Testing
+- Git and GitHub
