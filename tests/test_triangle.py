@@ -1,6 +1,12 @@
 import math
 from pathlib import Path
+import sys
 import unittest
+
+# Ensure project root is in sys.path when running this test file directly
+BASE_DIR = Path(__file__).resolve().parent.parent
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
 
 from src.data_loader import (
     load_triangles_from_csv,
@@ -8,8 +14,6 @@ from src.data_loader import (
 )
 from src.point import Point
 from src.triangle import Triangle
-
-BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 class TestPoint(unittest.TestCase):
